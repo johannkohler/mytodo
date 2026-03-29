@@ -10,3 +10,7 @@ build/
 
 # OS
 .DS_Store
+
+# Claude Code
+.claude/
+claude-chat
