@@ -1,0 +1,2 @@
+-- Baseline migration: initial empty schema
+-- Add future table definitions here or in subsequent versioned migrations.

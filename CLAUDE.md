@@ -41,5 +41,6 @@ Dependency versions are centralised in `gradle.properties` — update them there
 - Entry point: `MyTodoApplication.java` — standard `@SpringBootApplication` bootstrap
 - Controllers live in `src/main/java/com/mytodo/`, directly under the root package
 - The app runs on port 8080 by default (`application.properties`)
-- Database: MariaDB at `jdbc:mariadb://localhost:43306/mytodo` (schema pre-exists, JPA set to `validate`)
-- MariaDB driver version is managed via `mariadbDriverVersion` in `gradle.properties`
+- Database: MariaDB at `jdbc:mariadb://localhost:43306/mytodo`; JPA `ddl-auto=none`
+- Schema migrations are managed by Flyway — add versioned scripts to `src/main/resources/db/migration/` following the `V{n}__{description}.sql` naming convention
+- MariaDB driver and Flyway versions are managed via `gradle.properties`
