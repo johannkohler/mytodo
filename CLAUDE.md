@@ -18,6 +18,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./gradlew test --tests "com.mytodo.MyTodoApplicationTests"
 ```
 
+## GitHub
+
+Repository: https://github.com/johannkohler/mytodo (branch: `main`)
+
+After every code change, commit and push with a clean, descriptive message:
+
+```bash
+git add <files>
+git commit -m "short descriptive message"
+git push
+```
+
+Also update this `CLAUDE.md` file whenever a change affects architecture, commands, or project structure.
+
 ## Architecture
 
 Spring Boot 3.4.4 web application using Java 21 and Gradle.
