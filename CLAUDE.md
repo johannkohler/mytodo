@@ -47,3 +47,13 @@ Dependency versions are centralised in `gradle.properties` — update them there
 - Database: MariaDB at `jdbc:mariadb://localhost:43306/mytodo`; JPA `ddl-auto=none`
 - Schema migrations are managed by Flyway — add versioned scripts to `src/main/resources/db/migration/` following the `V{n}__{description}.sql` naming convention
 - MariaDB driver and Flyway versions are managed via `gradle.properties`
+
+## Internationalisation (i18n)
+
+The app supports English, French, Japanese, and German. Language is persisted in a cookie (`lang`) via `CookieLocaleResolver` (configured in `WebConfig.java`). Language switching uses the `?lang=xx` query parameter.
+
+- Translation files live in `src/main/resources/` — `messages.properties` (English fallback), `messages_fr.properties`, `messages_ja.properties`, `messages_de.properties`
+- Use `#{key}` syntax in Thymeleaf templates to reference translations
+- **When adding any user-visible text to a template, always add the corresponding key to all four messages files**
+- The navbar date display uses `Intl.DateTimeFormat` with the server-side locale injected via Thymeleaf inline JS (`th:inline="javascript"`)
+- The language selector dropdown in the navbar shows the current language and links to `?lang=xx` for each option

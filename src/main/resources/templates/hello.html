@@ -3,11 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Hello</title>
+    <title th:text="#{page.hello.title}">Hello</title>
 </head>
 <body>
     <div layout:fragment="content">
-        <h1>Hello World from MyTodo!</h1>
+        <h1 th:text="#{page.hello.heading}">Hello World from MyTodo!</h1>
     </div>
 </body>
 </html>
