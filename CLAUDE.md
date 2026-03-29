@@ -36,6 +36,8 @@ Also update this `CLAUDE.md` file whenever a change affects architecture, comman
 
 Spring Boot 3.4.4 web application using Java 21 and Gradle.
 
+Dependency versions are centralised in `gradle.properties` — update them there, not in `build.gradle`.
+
 - Entry point: `MyTodoApplication.java` — standard `@SpringBootApplication` bootstrap
 - Controllers live in `src/main/java/com/mytodo/`, directly under the root package
 - The app runs on port 8080 by default (`application.properties`)
