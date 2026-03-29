@@ -1,0 +1,4 @@
+make the mytodo springboot application. It will be a web application to manage daily todo. Please use gradle as build system. For now let the application empty (do not implenmet logical), and only implement a helloWorld to make it      
+  works.
+
+  
