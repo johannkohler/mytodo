@@ -19,7 +19,7 @@
             &laquo; <span th:text="#{week.nav.prev}">Previous</span>
         </span>
         <h4 class="mb-0" th:text="#{week.heading(${week.weekNumber}, ${week.year})}">Week</h4>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 align-items-center">
             <a th:if="${week.year != currentYear or week.weekNumber != currentWeek}"
                th:href="@{/week/{y}/{w}(y=${currentYear},w=${currentWeek})}"
                class="btn btn-outline-primary btn-sm">Today</a>
