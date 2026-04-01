@@ -54,7 +54,6 @@
     <main class="container mt-4" layout:fragment="content">
     </main>
 
-    <th:block layout:fragment="scripts">
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script th:inline="javascript">
         // Date — locale-aware using Intl.DateTimeFormat
@@ -82,6 +81,6 @@
             applyTheme(html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark');
         });
     </script>
-    </th:block>
+    <th:block layout:fragment="scripts"></th:block>
 </body>
 </html>
