@@ -50,9 +50,9 @@ Dependency versions are centralised in `gradle.properties` — update them there
 
 ## Internationalisation (i18n)
 
-The app supports English, French, Japanese, and German. Language is persisted in a cookie (`lang`) via `CookieLocaleResolver` (configured in `WebConfig.java`). Language switching uses the `?lang=xx` query parameter.
+The app supports English, French, and German. Language is persisted in a cookie (`lang`) via `CookieLocaleResolver` (configured in `WebConfig.java`). Language switching uses the `?lang=xx` query parameter.
 
-- Translation files live in `src/main/resources/` — `messages.properties` (English fallback), `messages_fr.properties`, `messages_ja.properties`, `messages_de.properties`
+- Translation files live in `src/main/resources/` — `messages.properties` (English fallback), `messages_fr.properties`, `messages_de.properties`
 - Use `#{key}` syntax in Thymeleaf templates to reference translations
 - **When adding any user-visible text to a template, always add the corresponding key to all four messages files**
 - The navbar date display uses `Intl.DateTimeFormat` with the server-side locale injected via Thymeleaf inline JS (`th:inline="javascript"`)

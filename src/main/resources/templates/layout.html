@@ -26,7 +26,6 @@
                             th:title="#{nav.lang.label}">
                         <span th:switch="${#locale.language}">
                             <span th:case="'fr'">Français</span>
-                            <span th:case="'ja'">日本語</span>
                             <span th:case="'de'">Deutsch</span>
                             <span th:case="*">English</span>
                         </span>
@@ -34,7 +33,6 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" th:classappend="${#locale.language == 'en'} ? 'active'" href="?lang=en">English</a></li>
                         <li><a class="dropdown-item" th:classappend="${#locale.language == 'fr'} ? 'active'" href="?lang=fr">Français</a></li>
-                        <li><a class="dropdown-item" th:classappend="${#locale.language == 'ja'} ? 'active'" href="?lang=ja">日本語</a></li>
                         <li><a class="dropdown-item" th:classappend="${#locale.language == 'de'} ? 'active'" href="?lang=de">Deutsch</a></li>
                     </ul>
                 </div>
