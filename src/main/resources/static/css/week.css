@@ -14,3 +14,5 @@
 .todo-list { min-height: 4rem; }
 
 .todo-text { word-break: break-word; }
+
+.row.flex-nowrap > .col { min-width: 180px; }
