@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDate;
 import java.time.temporal.IsoFields;
 
 @Controller
@@ -37,6 +38,7 @@ public class WeekController {
         model.addAttribute("todoTypes", TodoType.values());
         model.addAttribute("currentYear", weekService.getCurrentYear());
         model.addAttribute("currentWeek", weekService.getCurrentWeekNumber());
+        model.addAttribute("today", LocalDate.now());
 
         return "week";
     }

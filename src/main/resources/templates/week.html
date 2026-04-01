@@ -11,9 +11,13 @@
 
     <!-- Week header: navigation + label -->
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <a th:href="@{/week/{y}/{w}(y=${prevYear},w=${prevWeek})}" class="btn btn-outline-secondary">
+        <a th:if="${week.year != currentYear or week.weekNumber != currentWeek}"
+           th:href="@{/week/{y}/{w}(y=${prevYear},w=${prevWeek})}" class="btn btn-outline-secondary">
             &laquo; <span th:text="#{week.nav.prev}">Previous</span>
         </a>
+        <span th:if="${week.year == currentYear and week.weekNumber == currentWeek}" class="btn btn-outline-secondary disabled">
+            &laquo; <span th:text="#{week.nav.prev}">Previous</span>
+        </span>
         <h4 class="mb-0" th:text="#{week.heading(${week.weekNumber}, ${week.year})}">Week</h4>
         <div class="d-flex gap-2">
             <a th:if="${week.year != currentYear or week.weekNumber != currentWeek}"
@@ -27,7 +31,7 @@
 
     <!-- One row per day -->
     <div class="d-flex flex-column gap-3">
-    <div th:each="day : ${week.days}">
+    <div th:each="day : ${week.days}" th:if="${!day.dayDate.isBefore(today)}">
         <div class="card">
             <div class="card-header fw-semibold py-2 d-flex align-items-center justify-content-between">
                 <span>
