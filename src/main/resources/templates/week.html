@@ -42,7 +42,7 @@
                         <div class="d-flex align-items-start gap-1">
                             <span class="badge todo-type-badge flex-shrink-0"
                                   th:classappend="'todo-type-' + ${todo.type.name().toLowerCase()}"
-                                  th:text="#{('todo.type.' + todo.type.name().toLowerCase())}">Type</span>
+                                  th:text="${#messages.msg('todo.type.' + todo.type.name().toLowerCase())}">Type</span>
                             <span th:if="${todo.important}" class="text-warning flex-shrink-0">&#9733;</span>
                             <span class="todo-text" th:text="${todo.text}">Todo text</span>
                         </div>
@@ -83,7 +83,7 @@
                             <select class="form-select" id="todo-type" name="type">
                                 <option th:each="t : ${todoTypes}"
                                         th:value="${t.name()}"
-                                        th:text="#{('todo.type.' + t.name().toLowerCase())}">
+                                        th:text="${#messages.msg('todo.type.' + t.name().toLowerCase())}">
                                 </option>
                             </select>
                         </div>
