@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="#{page.week.title}">Week</title>
+    <link rel="stylesheet" th:href="@{/css/week.css}">
+</head>
+<body>
+<div layout:fragment="content">
+
+    <!-- Week header: navigation + label -->
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <a th:href="@{/week/{y}/{w}(y=${prevYear},w=${prevWeek})}" class="btn btn-outline-secondary">
+            &laquo; <span th:text="#{week.nav.prev}">Previous</span>
+        </a>
+        <h4 class="mb-0" th:text="#{week.heading(${week.weekNumber}, ${week.year})}">Week</h4>
+        <div class="d-flex gap-2">
+            <a th:if="${week.year != currentYear or week.weekNumber != currentWeek}"
+               th:href="@{/week/{y}/{w}(y=${currentYear},w=${currentWeek})}"
+               class="btn btn-outline-primary btn-sm">Today</a>
+            <a th:href="@{/week/{y}/{w}(y=${nextYear},w=${nextWeek})}" class="btn btn-outline-secondary">
+                <span th:text="#{week.nav.next}">Next</span> &raquo;
+            </a>
+        </div>
+    </div>
+
+    <!-- 5-column grid -->
+    <div class="row g-2">
+        <div class="col" th:each="day : ${week.days}">
+            <div class="card h-100">
+                <div class="card-header text-center fw-semibold py-2">
+                    <div th:text="${#temporals.format(day.dayDate, 'EEEE')}">Monday</div>
+                    <small class="text-muted" th:text="${#temporals.format(day.dayDate, 'dd MMM')}">01 Jan</small>
+                </div>
+
+                <ul class="list-group list-group-flush todo-list" th:attr="data-day-id=${day.id}">
+                    <li class="list-group-item todo-item px-2 py-2"
+                        th:each="todo : ${day.todos}"
+                        th:attr="data-todo-id=${todo.id}"
+                        th:classappend="${todo.important} ? ' todo-important'">
+                        <div class="d-flex align-items-start gap-1">
+                            <span class="badge todo-type-badge flex-shrink-0"
+                                  th:classappend="'todo-type-' + ${todo.type.name().toLowerCase()}"
+                                  th:text="#{('todo.type.' + todo.type.name().toLowerCase())}">Type</span>
+                            <span th:if="${todo.important}" class="text-warning flex-shrink-0">&#9733;</span>
+                            <span class="todo-text" th:text="${todo.text}">Todo text</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="card-footer text-center py-2">
+                    <button type="button" class="btn btn-sm btn-outline-primary"
+                            data-bs-toggle="modal" data-bs-target="#addTodoModal"
+                            th:attr="data-day-id=${day.id}"
+                            th:text="#{todo.add.button}">+ Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Todo Modal -->
+    <div class="modal fade" id="addTodoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" th:action="@{/todo/add}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" th:text="#{todo.modal.title}">Add Todo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="dayId" id="modal-day-id">
+                        <input type="hidden" name="year" th:value="${week.year}">
+                        <input type="hidden" name="weekNumber" th:value="${week.weekNumber}">
+
+                        <div class="mb-3">
+                            <label for="todo-text" class="form-label" th:text="#{todo.field.text}">Description</label>
+                            <input type="text" class="form-control" id="todo-text"
+                                   name="text" required maxlength="500" autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="todo-type" class="form-label" th:text="#{todo.field.type}">Type</label>
+                            <select class="form-select" id="todo-type" name="type">
+                                <option th:each="t : ${todoTypes}"
+                                        th:value="${t.name()}"
+                                        th:text="#{('todo.type.' + t.name().toLowerCase())}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox"
+                                   id="todo-important" name="important" value="true">
+                            <label class="form-check-label" for="todo-important"
+                                   th:text="#{todo.field.important}">Important</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal" th:text="#{todo.modal.cancel}">Cancel</button>
+                        <button type="submit" class="btn btn-primary"
+                                th:text="#{todo.modal.submit}">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<th:block layout:fragment="scripts">
+    <script th:src="@{/webjars/sortablejs/Sortable.min.js}"></script>
+    <script>
+    /*<![CDATA[*/
+    document.querySelectorAll('.todo-list').forEach(function(el) {
+        Sortable.create(el, {
+            animation: 150,
+            onEnd: function(evt) {
+                var list = evt.to;
+                var dayId = parseInt(list.dataset.dayId);
+                var orderedIds = Array.from(list.querySelectorAll('.todo-item'))
+                    .map(function(item) { return parseInt(item.dataset.todoId); });
+                fetch('/todo/reorder', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dayId: dayId, orderedIds: orderedIds })
+                });
+            }
+        });
+    });
+
+    document.getElementById('addTodoModal').addEventListener('show.bs.modal', function(event) {
+        document.getElementById('modal-day-id').value = event.relatedTarget.dataset.dayId;
+        document.getElementById('todo-text').value = '';
+        document.getElementById('todo-important').checked = false;
+    });
+    /*]]>*/
+    </script>
+</th:block>
+</body>
+</html>

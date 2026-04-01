@@ -26,6 +26,7 @@ dependencies {
     implementation "org.flywaydb:flyway-mysql:${flywayVersion}"
     implementation "org.webjars:bootstrap:${bootstrapVersion}"
     implementation "org.webjars:webjars-locator-lite:${webjarsLocatorVersion}"
+    implementation "org.webjars.npm:sortablejs:${sortablejsVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

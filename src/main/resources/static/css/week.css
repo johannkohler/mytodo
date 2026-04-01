@@ -1,0 +1,16 @@
+.todo-type-information { background-color: #0d6efd; }
+.todo-type-activity    { background-color: #198754; }
+.todo-type-meeting     { background-color: #dc3545; }
+.todo-type-personal    { background-color: #fd7e14; }
+
+.todo-important {
+    border-left: 3px solid #ffc107;
+    font-weight: 600;
+}
+
+.todo-item { cursor: grab; }
+.todo-item:active { cursor: grabbing; }
+
+.todo-list { min-height: 4rem; }
+
+.todo-text { word-break: break-word; }

@@ -54,6 +54,30 @@ The app supports English, French, and German. Language is persisted in a cookie 
 
 - Translation files live in `src/main/resources/` — `messages.properties` (English fallback), `messages_fr.properties`, `messages_de.properties`
 - Use `#{key}` syntax in Thymeleaf templates to reference translations
-- **When adding any user-visible text to a template, always add the corresponding key to all four messages files**
+- **When adding any user-visible text to a template, always add the corresponding key to all three messages files**
 - The navbar date display uses `Intl.DateTimeFormat` with the server-side locale injected via Thymeleaf inline JS (`th:inline="javascript"`)
 - The language selector dropdown in the navbar shows the current language and links to `?lang=xx` for each option
+- `layout.html` defines a `layout:fragment="scripts"` block at the bottom of `<body>` — pages can extend it to inject page-specific scripts after Bootstrap JS
+
+## Features
+
+### Weekly view (`/week/{year}/{weekNumber}`)
+- `GET /` redirects to the current ISO week URL
+- On first visit to a week URL, the Week + 5 Day rows are auto-created in the DB
+- Week navigation (prev/next) uses ISO week arithmetic via `java.time.IsoFields`
+- A "Today" button appears when not on the current week
+
+### Domain model (all in `com.mytodo`)
+- Entities: `Week`, `Day`, `Todo`; enum: `TodoType` (INFORMATION, ACTIVITY, MEETING, PERSONAL)
+- Repositories: `WeekRepository`, `DayRepository`, `TodoRepository`
+- Services: `WeekService`, `TodoService`
+- Controllers: `WeekController` (views), `TodoController` (form POST + AJAX reorder)
+- DTO: `ReorderRequest`
+
+### Drag-and-drop reordering
+- SortableJS served via WebJar `org.webjars.npm:sortablejs` (version `sortablejsVersion` in `gradle.properties`)
+- `POST /todo/reorder` accepts JSON `{ dayId, orderedIds[] }` and rewrites `position` values
+
+### Add todo
+- Each day column has an "+ Add" button that opens a shared Bootstrap modal
+- Form POSTs to `POST /todo/add` and redirects back to the current week URL
