@@ -40,10 +40,11 @@ public class WeekService {
             Day day = new Day();
             day.setWeek(week);
             day.setDayDate(monday.plusDays(i));
-            dayRepository.save(day);
+            day = dayRepository.save(day);
+            week.getDays().add(day);
         }
 
-        return weekRepository.findById(week.getId()).orElseThrow();
+        return week;
     }
 
     public int getCurrentYear() {
