@@ -25,40 +25,35 @@
         </div>
     </div>
 
-    <!-- 5-column grid -->
-    <div class="overflow-x-auto">
-    <div class="row g-2 flex-nowrap">
-        <div class="col" th:each="day : ${week.days}">
-            <div class="card h-100">
-                <div class="card-header text-center fw-semibold py-2">
-                    <div th:text="${#temporals.format(day.dayDate, 'EEEE')}">Monday</div>
-                    <small class="text-muted" th:text="${#temporals.format(day.dayDate, 'dd MMM')}">01 Jan</small>
-                </div>
-
-                <ul class="list-group list-group-flush todo-list" th:attr="data-day-id=${day.id}">
-                    <li class="list-group-item todo-item px-2 py-2"
-                        th:each="todo : ${day.todos}"
-                        th:attr="data-todo-id=${todo.id}"
-                        th:classappend="${todo.important} ? ' todo-important'">
-                        <div class="d-flex align-items-start gap-1">
-                            <span class="badge todo-type-badge flex-shrink-0"
-                                  th:classappend="'todo-type-' + ${todo.type.name().toLowerCase()}"
-                                  th:text="${#messages.msg('todo.type.' + todo.type.name().toLowerCase())}">Type</span>
-                            <span th:if="${todo.important}" class="text-warning flex-shrink-0">&#9733;</span>
-                            <span class="todo-text" th:text="${todo.text}">Todo text</span>
-                        </div>
-                    </li>
-                </ul>
-
-                <div class="card-footer text-center py-2">
-                    <button type="button" class="btn btn-sm btn-outline-primary"
-                            data-bs-toggle="modal" data-bs-target="#addTodoModal"
-                            th:attr="data-day-id=${day.id}"
-                            th:text="#{todo.add.button}">+ Add</button>
-                </div>
+    <!-- One row per day -->
+    <div class="d-flex flex-column gap-2" th:each="day : ${week.days}">
+        <div class="card">
+            <div class="card-header fw-semibold py-2 d-flex align-items-center justify-content-between">
+                <span>
+                    <span th:text="${#temporals.format(day.dayDate, 'EEEE')}">Monday</span>
+                    <small class="text-muted ms-2" th:text="${#temporals.format(day.dayDate, 'dd MMM')}">01 Jan</small>
+                </span>
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                        data-bs-toggle="modal" data-bs-target="#addTodoModal"
+                        th:attr="data-day-id=${day.id}"
+                        th:text="#{todo.add.button}">+ Add</button>
             </div>
+
+            <ul class="list-group list-group-flush todo-list" th:attr="data-day-id=${day.id}">
+                <li class="list-group-item todo-item px-3 py-2"
+                    th:each="todo : ${day.todos}"
+                    th:attr="data-todo-id=${todo.id}"
+                    th:classappend="${todo.important} ? ' todo-important'">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge todo-type-badge flex-shrink-0"
+                              th:classappend="'todo-type-' + ${todo.type.name().toLowerCase()}"
+                              th:text="${#messages.msg('todo.type.' + todo.type.name().toLowerCase())}">Type</span>
+                        <span th:if="${todo.important}" class="text-warning flex-shrink-0">&#9733;</span>
+                        <span class="todo-text" th:text="${todo.text}">Todo text</span>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </div>
     </div>
 
     <!-- Add Todo Modal -->
